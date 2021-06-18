@@ -2,6 +2,7 @@ package com.axity.springmvc.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -212,4 +213,26 @@ public class OfficeDO implements Serializable
     this.employees = employees;
   }
 
+  @Override
+  public boolean equals( Object object )
+  {
+    boolean isEquals = false;
+    if( this == object )
+    {
+      isEquals = true;
+    }
+    else if( object != null && object.getClass().equals( this.getClass() ) )
+    {
+      OfficeDO that = (OfficeDO) object;
+
+      isEquals = Objects.equals( this.officeCode, that.officeCode );
+    }
+    return isEquals;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash( this.officeCode );
+  }
 }

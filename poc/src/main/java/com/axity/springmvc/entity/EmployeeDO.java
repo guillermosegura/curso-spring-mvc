@@ -2,6 +2,7 @@ package com.axity.springmvc.entity;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -220,4 +221,26 @@ public class EmployeeDO implements Serializable
     this.customers = customers;
   }
 
+  @Override
+  public boolean equals( Object object )
+  {
+    boolean isEquals = false;
+    if( this == object )
+    {
+      isEquals = true;
+    }
+    else if( object != null && object.getClass().equals( this.getClass() ) )
+    {
+      EmployeeDO that = (EmployeeDO) object;
+
+      isEquals = Objects.equals( this.employeeNumber, that.employeeNumber );
+    }
+    return isEquals;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash( this.employeeNumber );
+  }
 }

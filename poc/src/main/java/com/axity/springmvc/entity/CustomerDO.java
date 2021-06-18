@@ -3,6 +3,7 @@ package com.axity.springmvc.entity;
 import java.io.Serializable;
 import java.math.BigDecimal;
 import java.util.List;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Entity;
@@ -294,6 +295,29 @@ public class CustomerDO implements Serializable
   public void setPayments( List<PaymentDO> payments )
   {
     this.payments = payments;
+  }
+
+  @Override
+  public boolean equals( Object object )
+  {
+    boolean isEquals = false;
+    if( this == object )
+    {
+      isEquals = true;
+    }
+    else if( object != null && object.getClass().equals( this.getClass() ) )
+    {
+      CustomerDO that = (CustomerDO) object;
+
+      isEquals = Objects.equals( this.customerNumber, that.customerNumber );
+    }
+    return isEquals;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash( this.customerNumber );
   }
 
 }

@@ -1,6 +1,7 @@
 package com.axity.springmvc.entity;
 
 import java.io.Serializable;
+import java.util.Objects;
 
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
@@ -71,6 +72,30 @@ public class PaymentId implements Serializable
   public void setCheckNumber( String checkNumber )
   {
     this.checkNumber = checkNumber;
+  }
+
+  @Override
+  public boolean equals( Object object )
+  {
+    boolean isEquals = false;
+    if( this == object )
+    {
+      isEquals = true;
+    }
+    else if( object != null && object.getClass().equals( this.getClass() ) )
+    {
+      PaymentId that = (PaymentId) object;
+
+      isEquals = Objects.equals( this.customerNumber, that.customerNumber );
+      isEquals = isEquals && Objects.equals( this.checkNumber, that.checkNumber );
+    }
+    return isEquals;
+  }
+
+  @Override
+  public int hashCode()
+  {
+    return Objects.hash( this.customerNumber, this.checkNumber );
   }
 
 }

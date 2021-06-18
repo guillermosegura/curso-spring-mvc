@@ -15,6 +15,7 @@
 <body>
   <h3>Spring MVC</h3>
   
+  <p>${hello}
   
   <ul>
     <li><a href="./office">Oficinas</a>

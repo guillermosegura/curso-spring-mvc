@@ -18,6 +18,7 @@ public class InitController
   {
     ModelAndView mv = new ModelAndView();
     mv.setViewName( "index" );
+    mv.getModel().put( "hello", "Hello world!!!" );
     return mv;
   }
 }

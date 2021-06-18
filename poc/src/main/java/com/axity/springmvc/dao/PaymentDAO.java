@@ -18,6 +18,16 @@ public interface PaymentDAO {
 	 * @return
 	 */
 	List<PaymentDO> findAllByCustomerNumber(Long customerNumber);
+	
+	/**
+	 * Busca los pago de un cliente paginado
+	 * @param customerNumber
+	 * @param maxResults
+	 * @param page
+	 * @param pageSize
+	 * @return
+	 */
+	List<PaymentDO> findAllByCustomerNumber(Long customerNumber, int maxResults, int page, int pageSize );
 
 	/**
 	 * Busca un pago asociado a un cliente y asu número de cheque

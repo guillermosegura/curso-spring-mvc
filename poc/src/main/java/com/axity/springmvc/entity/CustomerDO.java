@@ -16,6 +16,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 /**
  * Entidad de la tabla customers
  * 
@@ -31,43 +35,56 @@ public class CustomerDO implements Serializable
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "customerNumber")
+  @Expose
   private Long customerNumber;
 
   @Column(name = "customerName", length = 50, nullable = false)
+  @Expose
   private String customerName;
 
   @Column(name = "contactLastName", length = 50, nullable = false)
+  @Expose
   private String contactLastName;
 
   @Column(name = "contactFirstName", length = 50, nullable = false)
+  @Expose
   private String contactFirstName;
 
   @Column(name = "phone", length = 50, nullable = false)
+  @Expose
   private String phone;
 
   @Column(name = "addressLine1", length = 50, nullable = false)
+  @Expose
   private String addressLine1;
 
   @Column(name = "addressLine2", length = 50, nullable = true)
+  @Expose
   private String addressLine2;
 
   @Column(name = "city", length = 50, nullable = false)
+  @Expose
   private String city;
 
   @Column(name = "state", length = 50, nullable = true)
+  @Expose
   private String state;
 
   @Column(name = "postalCode", length = 15, nullable = true)
+  @Expose
   private String postalCode;
 
   @Column(name = "country", length = 50, nullable = false)
+  @Expose
   private String country;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = true)
   @JoinColumn(name = "salesRepEmployeeNumber", referencedColumnName = "employeeNumber")
+  @Expose
   private EmployeeDO salesRepEmployee;
 
   @Column(name = "creditLimit", precision = 10, scale = 2)
+  @Expose
   private BigDecimal creditLimit;
 
   @OneToMany(mappedBy = "customer", fetch = FetchType.LAZY)
@@ -318,6 +335,14 @@ public class CustomerDO implements Serializable
   public int hashCode()
   {
     return Objects.hash( this.customerNumber );
+  }
+
+  @Override
+  public String toString()
+  {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    return gson.toJson( this );
   }
 
 }

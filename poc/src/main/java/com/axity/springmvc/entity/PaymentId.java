@@ -6,6 +6,10 @@ import java.util.Objects;
 import javax.persistence.Column;
 import javax.persistence.Embeddable;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 /**
  * Llave compuesta de la tabla payments
  * 
@@ -18,9 +22,11 @@ public class PaymentId implements Serializable
   private static final long serialVersionUID = 8207197912982355628L;
 
   @Column(name = "customerNumber", nullable = false)
+  @Expose
   private Long customerNumber;
 
   @Column(name = "checkNumber", nullable = false)
+  @Expose
   private String checkNumber;
 
   /**
@@ -96,6 +102,14 @@ public class PaymentId implements Serializable
   public int hashCode()
   {
     return Objects.hash( this.customerNumber, this.checkNumber );
+  }
+
+  @Override
+  public String toString()
+  {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    return gson.toJson( this );
   }
 
 }

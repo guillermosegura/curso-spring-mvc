@@ -20,6 +20,16 @@ public interface EmployeeDAO
   List<EmployeeDO> findAll();
 
   /**
+   * Busca los empleados por paginacion
+   * 
+   * @param maxResults
+   * @param page
+   * @param pageSize
+   * @return
+   */
+  List<EmployeeDO> findAll( int maxResults, int page, int pageSize );
+
+  /**
    * Busca los empleados de una oficina en particular
    * 
    * @param officeCode
@@ -64,6 +74,5 @@ public interface EmployeeDAO
    * @param employeeDO
    */
   void edit( EmployeeDO employeeDO );
-
 
 }

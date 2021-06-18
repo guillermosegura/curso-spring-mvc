@@ -23,6 +23,12 @@ import com.axity.springmvc.entity.EmployeeDO;
 public class EmployeeDAOImpl implements EmployeeDAO
 {
   private static final Logger LOG = LoggerFactory.getLogger( EmployeeDAOImpl.class );
+  
+  private static final int PAGE_SIZE = 20;
+
+  private static final int FIRST_PAGE = 0;
+
+  private static final int MAX_RESULTS_DEFAULT = 20;
 
   @PersistenceContext
   private EntityManager em;
@@ -33,7 +39,16 @@ public class EmployeeDAOImpl implements EmployeeDAO
   @Override
   public List<EmployeeDO> findAll()
   {
+    return findAll(MAX_RESULTS_DEFAULT, FIRST_PAGE, PAGE_SIZE);
+  }
+  
+  
+  @Override
+  public List<EmployeeDO> findAll(int maxResults, int page, int pageSize )
+  {
     TypedQuery<EmployeeDO> query = em.createQuery( "FROM EmployeeDO e ORDER BY e.employeeNumber", EmployeeDO.class );
+    query.setMaxResults( maxResults );
+    query.setFirstResult( page * pageSize );
     return query.getResultList();
   }
 

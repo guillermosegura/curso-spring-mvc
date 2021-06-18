@@ -15,6 +15,10 @@ import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 /**
  * Entidad de la tabla employees
  * 
@@ -30,32 +34,40 @@ public class EmployeeDO implements Serializable
   @Id
   @GeneratedValue(strategy = GenerationType.IDENTITY)
   @Column(name = "employeeNumber")
+  @Expose
   private Long employeeNumber;
 
   @Column(name = "lastName")
+  @Expose
   private String lastName;
 
   @Column(name = "firstName")
+  @Expose
   private String firstName;
 
   @Column(name = "extension")
+  @Expose
   private String extension;
 
   @Column(name = "email")
+  @Expose
   private String email;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
   @JoinColumn(name = "officeCode", referencedColumnName = "officeCode")
+  @Expose
   private OfficeDO office;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = true)
   @JoinColumn(name = "reportsTo", referencedColumnName = "employeeNumber")
+  @Expose
   private EmployeeDO reportsTo;
 
   @OneToMany(mappedBy = "reportsTo", fetch = FetchType.LAZY)
   private List<EmployeeDO> employees;
 
   @Column(name = "jobTitle")
+  @Expose
   private String jobTitle;
 
   @OneToMany(mappedBy = "salesRepEmployee", fetch = FetchType.LAZY)
@@ -242,5 +254,13 @@ public class EmployeeDO implements Serializable
   public int hashCode()
   {
     return Objects.hash( this.employeeNumber );
+  }
+  
+  @Override
+  public String toString()
+  {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    return gson.toJson( this );
   }
 }

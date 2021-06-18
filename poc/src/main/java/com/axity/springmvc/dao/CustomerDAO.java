@@ -20,6 +20,16 @@ public interface CustomerDAO
   List<CustomerDO> findAll();
 
   /**
+   * Obtiene los clientes por paginacion
+   * 
+   * @param maxResults
+   * @param page
+   * @param pageSize
+   * @return
+   */
+  List<CustomerDO> findAll( int maxResults, int page, int pageSize );
+
+  /**
    * Busca los clientes por su nombre
    * 
    * @param customerName

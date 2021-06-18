@@ -24,18 +24,30 @@ public class PaymentDAOImpl implements PaymentDAO
 {
 
   private static final Logger LOG = LoggerFactory.getLogger( PaymentDAOImpl.class );
+  private static final int PAGE_SIZE = 20;
 
+  private static final int FIRST_PAGE = 0;
+
+  private static final int MAX_RESULTS_DEFAULT = 20;
   @PersistenceContext
   private EntityManager em;
 
   @Override
   public List<PaymentDO> findAllByCustomerNumber( Long customerNumber )
   {
+    return findAllByCustomerNumber( customerNumber, MAX_RESULTS_DEFAULT, FIRST_PAGE, PAGE_SIZE );
+  }
+
+  @Override
+  public List<PaymentDO> findAllByCustomerNumber( Long customerNumber, int maxResults, int page, int pageSize )
+  {
     TypedQuery<PaymentDO> query = em
         .createQuery( "SELECT p FROM PaymentDO p" + " WHERE p.id.customerNumber = :customerNumber" //
             + " ORDER BY p.paymentDate, p.id.checkNumber ",
           PaymentDO.class );
     query.setParameter( "customerNumber", customerNumber );
+    query.setMaxResults( maxResults );
+    query.setFirstResult( page * pageSize );
     return query.getResultList();
   }
 

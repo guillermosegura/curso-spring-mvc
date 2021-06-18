@@ -11,6 +11,10 @@ import javax.persistence.Id;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 /**
  * Entidad de la tabla offices
  * 
@@ -24,30 +28,39 @@ public class OfficeDO implements Serializable
 
   @Id
   @Column(name = "officeCode", length = 10)
+  @Expose
   private String officeCode;
 
   @Column(name = "city", nullable = false, length = 50)
+  @Expose
   private String city;
 
   @Column(name = "phone", nullable = false, length = 50)
+  @Expose
   private String phone;
 
   @Column(name = "addressLine1", nullable = false, length = 50)
+  @Expose
   private String addressLine1;
 
   @Column(name = "addressLine2", nullable = true, length = 50)
+  @Expose
   private String addressLine2;
 
   @Column(name = "state", nullable = true, length = 50)
+  @Expose
   private String state;
 
   @Column(name = "country", nullable = false, length = 50)
+  @Expose
   private String country;
 
   @Column(name = "postalCode", nullable = false, length = 15)
+  @Expose
   private String postalCode;
 
   @Column(name = "territory", nullable = false, length = 10)
+  @Expose
   private String territory;
 
   @OneToMany(mappedBy = "office", fetch = FetchType.LAZY)
@@ -234,5 +247,13 @@ public class OfficeDO implements Serializable
   public int hashCode()
   {
     return Objects.hash( this.officeCode );
+  }
+  
+  @Override
+  public String toString()
+  {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    return gson.toJson( this );
   }
 }

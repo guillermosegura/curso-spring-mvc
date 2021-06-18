@@ -15,6 +15,10 @@ import javax.persistence.Table;
 import javax.persistence.Temporal;
 import javax.persistence.TemporalType;
 
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
+import com.google.gson.annotations.Expose;
+
 /**
  * Entidad de la tabla payments
  * 
@@ -28,6 +32,7 @@ public class PaymentDO implements Serializable
   private static final long serialVersionUID = 2263012586989817489L;
 
   @EmbeddedId
+  @Expose
   private PaymentId id;
 
   @ManyToOne(fetch = FetchType.EAGER, optional = false)
@@ -37,9 +42,11 @@ public class PaymentDO implements Serializable
 
   @Column(name = "paymentDate", nullable = false)
   @Temporal(TemporalType.DATE)
+  @Expose
   private Date paymentDate;
 
   @Column(name = "amount", precision = 10, scale = 2)
+  @Expose
   private BigDecimal amount;
 
   /**
@@ -127,6 +134,14 @@ public class PaymentDO implements Serializable
   public int hashCode()
   {
     return Objects.hash( this.id );
+  }
+  
+  @Override
+  public String toString()
+  {
+    Gson gson = new GsonBuilder().excludeFieldsWithoutExposeAnnotation().create();
+
+    return gson.toJson( this );
   }
 
 }

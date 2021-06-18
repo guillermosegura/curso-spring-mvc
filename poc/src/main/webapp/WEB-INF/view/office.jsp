@@ -10,6 +10,8 @@
 <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.min.css" rel="stylesheet"
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
 <title>Oficinas</title>
 </head>
 <body>
@@ -26,6 +28,7 @@
         <th scope="col">Country</th>
         <th scope="col">CP</th>
         <th scope="col">Territorio</th>
+        <th scope="col">Acciones</th>
       </tr>
     </thead>
     <tbody>
@@ -40,13 +43,26 @@
           <td>${office.country}</td>
           <td>${office.postalCode}</td>
           <td>${office.territory}</td>
+          <td>
+            <button type="button" class="btn btn-info">
+              <span class="fa fa-edit" aria-hidden="true"></span>
+            </button>
+
+            <button type="button" class="btn btn-danger">
+              <span class="fa fa-remove" aria-hidden="true"></span>
+            </button>
+          </td>
         </tr>
       </c:forEach>
     <tbody>
   </table>
 
 
-<p><a href="./">Regresar</a>
-
+  <p>
+    <a href="./">
+      <button type="button" class="btn btn-primary" aria-label="Left Align">
+        <span class="fa fa-undo" aria-hidden="true"></span> Regresar
+      </button>
+    </a>
 </body>
 </html>

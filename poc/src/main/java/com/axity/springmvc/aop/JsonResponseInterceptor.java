@@ -33,7 +33,9 @@ public class JsonResponseInterceptor implements HandlerInterceptor
       {
         ResponseEntity<?> responseEntity = (ResponseEntity<?>) result;
         responseEntity.getStatusCode();
-        if( responseEntity.getStatusCode().equals( HttpStatus.OK ) )
+
+        if( responseEntity.getStatusCode().equals( HttpStatus.OK )
+            || responseEntity.getStatusCode().equals( HttpStatus.CREATED ) )
         {
           GenericResponse genericResponse = new GenericResponse();
           genericResponse.setBody( responseEntity.getBody() );
@@ -41,6 +43,12 @@ public class JsonResponseInterceptor implements HandlerInterceptor
           header.setMessage( "OK" );
           header.setStatus( "000" );
           genericResponse.setHeader( header );
+          result = new ResponseEntity<>( genericResponse, responseEntity.getStatusCode() );
+        }
+        else
+        {
+          GenericResponse genericResponse = new GenericResponse();
+          genericResponse.setBody( responseEntity.getBody() );
           result = new ResponseEntity<>( genericResponse, responseEntity.getStatusCode() );
         }
       }
@@ -51,7 +59,7 @@ public class JsonResponseInterceptor implements HandlerInterceptor
 
       GenericResponse genericResponse = new GenericResponse();
       Header header = new Header();
-      header.setMessage( "Error:" + e.getCode().name() );
+      header.setMessage( e.getMessage() );
       header.setStatus( e.getCode().getCode() );
       genericResponse.setHeader( header );
       result = new ResponseEntity<>( genericResponse, HttpStatus.INTERNAL_SERVER_ERROR );

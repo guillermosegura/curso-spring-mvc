@@ -24,6 +24,14 @@
       <button type="button" class="btn btn-primary" aria-label="Left Align">
         <span class="fa fa-plus" aria-hidden="true"></span> Agregar oficina
       </button>
+    </a> <a href="<c:url value="/office?view=xml"/>" target="_blank">
+      <button type="button" class="btn btn-success" aria-label="Left Align">
+        <span class="fa fa-file-text-o" aria-hidden="true"></span> Ver XML
+      </button>
+    </a> <a href="<c:url value="/office?view=json"/>" target="_blank">
+      <button type="button" class="btn btn-info" aria-label="Left Align">
+        <span class="fa fa-file-text-o" aria-hidden="true"></span> Ver JSON
+      </button>
     </a>
   <table class="table">
     <thead>
@@ -53,13 +61,25 @@
           <td>${office.postalCode}</td>
           <td>${office.territory}</td>
           <td><a href="<c:url value="/office_edit?officeCode=${office.officeCode}" />">
-              <button id="editOffice${office.officeCode}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Editar">
+              <button id="editOffice${office.officeCode}" type="button" class="btn btn-info" data-toggle="tooltip"
+                data-placement="bottom" title="Editar">
                 <span class="fa fa-edit" aria-hidden="true"></span>
               </button>
           </a> <a href="<c:url value="/office_delete?officeCode=${office.officeCode}" />">
-              <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
+              <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom"
+                title="Eliminar">
                 <span class="fa fa-remove" aria-hidden="true"></span>
-              </button>
+              </button> <a href="<c:url value="/office_view?officeCode=${office.officeCode}&view=xml"/>" target="_blank">
+                <button type="button" class="btn btn-success" aria-label="Left Align">
+                  <span class="fa fa-file-text-o" aria-hidden="true"></span> Ver XML
+                </button>
+            </a> <a href="<c:url value="/office_view?officeCode=${office.officeCode}&view=json"/>" target="_blank">
+                <button type="button" class="btn btn-info" aria-label="Left Align">
+                  <span class="fa fa-file-text-o" aria-hidden="true"></span> Ver JSON
+                </button>
+            </a>
+
+
           </a></td>
         </tr>
       </c:forEach>

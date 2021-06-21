@@ -2,6 +2,11 @@ package com.axity.springmvc.to;
 
 import java.io.Serializable;
 
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+import com.fasterxml.jackson.annotation.JsonProperty;
+import com.fasterxml.jackson.annotation.JsonPropertyOrder;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -10,10 +15,16 @@ import com.google.gson.GsonBuilder;
  * 
  * @author guillermo.segura@axity.com
  */
+@JsonPropertyOrder({ "officeId", "territory", "country", "city", "state", "addressLine1", "addressLine2", "phone",
+    "zip" })
+@JsonInclude(Include.NON_NULL)
 public class Office implements Serializable
 {
 
-  private static final long serialVersionUID = -1468484645398717478L;
+  private static final long serialVersionUID = 7495064891778035562L;
+
+  @JsonProperty("officeId")
+  @JsonAlias("officeCode")
   private String officeCode;
   private String city;
   private String phone;
@@ -21,6 +32,8 @@ public class Office implements Serializable
   private String addressLine2;
   private String state;
   private String country;
+  @JsonProperty("zip")
+  @JsonAlias("postalCode")
   private String postalCode;
   private String territory;
 

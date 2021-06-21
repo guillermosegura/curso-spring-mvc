@@ -2,9 +2,7 @@ package com.axity.springmvc.services.impl;
 
 import java.util.ArrayList;
 import java.util.List;
-import java.util.Objects;
 
-import javax.persistence.PersistenceException;
 import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
@@ -15,10 +13,9 @@ import org.springframework.stereotype.Service;
 
 import com.axity.springmvc.dao.OfficeDAO;
 import com.axity.springmvc.entity.OfficeDO;
-import com.axity.springmvc.exception.BusinessExcepcion;
-import com.axity.springmvc.exception.BusinessExcepcionCode;
 import com.axity.springmvc.services.OfficeService;
 import com.axity.springmvc.to.Office;
+import com.axity.springmvc.to.PaginatedResponse;
 import com.axity.springmvc.util.Validator;
 
 /**
@@ -55,6 +52,42 @@ public class OfficeServiceImpl implements OfficeService
     }
 
     return list;
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public PaginatedResponse<Office> findAllPaginated( int page, int pageSize )
+  {
+    List<Office> list = null;
+
+    List<OfficeDO> offices = officeDAO.findAll( page, pageSize );
+    int count = this.officeDAO.countAll();
+    int pages = count / pageSize;
+    if( count % pageSize > 0 )
+    {
+      pages++;
+    }
+
+    if( offices != null )
+    {
+      list = new ArrayList<Office>( offices.size() );
+      for( OfficeDO office : offices )
+      {
+        list.add( transform( office ) );
+      }
+    }
+
+    PaginatedResponse<Office> paginated = new PaginatedResponse<>();
+    paginated.setPage( page );
+    paginated.setPageSize( pageSize );
+
+    paginated.setPages( pages );
+
+    paginated.setResponse( list );
+
+    return paginated;
   }
 
   /**
@@ -102,20 +135,8 @@ public class OfficeServiceImpl implements OfficeService
     Validator.validateNotNull( office.getPostalCode(), "El campo Código Postal es requerido" );
     Validator.validateNotNull( office.getTerritory(), "El campo Territorio es requerido" );
 
-    try
-    {
-      officeDAO.create( transform( office ) );
-      LOG.info( "Se ha creado el registro {}", officeDAO.get( office.getOfficeCode() ) );
-    }
-    catch( PersistenceException e )
-    {
-      LOG.error( e.getMessage(), e );
-
-      BusinessExcepcion businessExcepcion = new BusinessExcepcion(
-          "Ocurri&oacute; un error de persistencia: " + e.getMessage(), e );
-      businessExcepcion.setCode( BusinessExcepcionCode.DB_INTEGRITY );
-      throw businessExcepcion;
-    }
+    officeDAO.create( transform( office ) );
+    LOG.info( "Se ha creado el registro {}", officeDAO.get( office.getOfficeCode() ) );
   }
 
   /**
@@ -124,19 +145,7 @@ public class OfficeServiceImpl implements OfficeService
   @Override
   public void edit( Office office )
   {
-    try
-    {
-      officeDAO.edit( transform( office ) );
-    }
-    catch( PersistenceException e )
-    {
-      LOG.error( e.getMessage(), e );
-
-      BusinessExcepcion businessExcepcion = new BusinessExcepcion(
-          "Ocurri&oacute; un error de persistencia: " + e.getMessage(), e );
-      businessExcepcion.setCode( BusinessExcepcionCode.DB_INTEGRITY );
-      throw businessExcepcion;
-    }
+    officeDAO.edit( transform( office ) );
   }
 
   /**
@@ -145,19 +154,7 @@ public class OfficeServiceImpl implements OfficeService
   @Override
   public void delete( String officeCode )
   {
-    try
-    {
-      officeDAO.delete( officeCode );
-    }
-    catch( PersistenceException e )
-    {
-      LOG.error( e.getMessage(), e );
-
-      BusinessExcepcion businessExcepcion = new BusinessExcepcion(
-          "Ocurri&oacute; un error de persistencia: " + e.getMessage(), e );
-      businessExcepcion.setCode( BusinessExcepcionCode.DB_INTEGRITY );
-      throw businessExcepcion;
-    }
+    officeDAO.delete( officeCode );
   }
 
   private Office transform( OfficeDO entity )

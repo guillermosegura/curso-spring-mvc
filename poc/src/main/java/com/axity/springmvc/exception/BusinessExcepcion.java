@@ -8,8 +8,9 @@ package com.axity.springmvc.exception;
 public class BusinessExcepcion extends RuntimeException
 {
 
-  private static final long serialVersionUID = 8389119791244900216L;
+  private static final long serialVersionUID = -7281539346624574897L;
   private BusinessExcepcionCode code;
+  private String detailMessage;
 
   public BusinessExcepcion()
   {
@@ -43,6 +44,16 @@ public class BusinessExcepcion extends RuntimeException
   public void setCode( BusinessExcepcionCode code )
   {
     this.code = code;
+  }
+
+  public String getDetailMessage()
+  {
+    return detailMessage;
+  }
+
+  public void setDetailMessage( String detailMessage )
+  {
+    this.detailMessage = detailMessage;
   }
 
 }

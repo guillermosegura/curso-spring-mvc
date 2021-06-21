@@ -14,7 +14,8 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
-import org.springframework.web.servlet.View;
+import org.springframework.web.servlet.view.json.MappingJackson2JsonView;
+import org.springframework.web.servlet.view.xml.MappingJackson2XmlView;
 
 import com.axity.springmvc.exception.BusinessExcepcion;
 import com.axity.springmvc.exception.BusinessExcepcionCode;
@@ -48,11 +49,31 @@ public class OfficeController
    */
   @RequestMapping("/office")
   @GetMapping
-  public ModelAndView offices()
+  public ModelAndView offices( @RequestParam(required = false, defaultValue = "html") String view )
   {
     ModelAndView mv = new ModelAndView();
-    mv.setViewName( "office" );
-    mv.getModel().put( "data", "Welcome!!!" );
+
+    mv = new ModelAndView();
+    if( view != null && view.equalsIgnoreCase( "xml" ) )
+    {
+      mv = new ModelAndView( new MappingJackson2XmlView() );
+    }
+    else if( view != null && view.equalsIgnoreCase( "json" ) )
+    {
+      mv = new ModelAndView( new MappingJackson2JsonView() );
+    }
+    else if( view != null && view.equalsIgnoreCase( "html" ) )
+    {
+      mv = new ModelAndView();
+      mv.setViewName( "office" );
+      mv.getModel().put( "data", "Welcome!!!" );
+    }
+    else
+    {
+      mv = new ModelAndView();
+      mv.setViewName( "office" );
+      mv.getModel().put( "data", "Welcome!!!" );
+    }
 
     List<Office> offices = officeService.findAll();
     offices.stream().forEach( o -> LOG.info( "{}", o ) );
@@ -98,6 +119,31 @@ public class OfficeController
     ModelAndView mv = getOfficeModelView( officeCode );
 
     mv.setViewName( "office_edit" );
+    return mv;
+  }
+
+  @RequestMapping(value = "/office_view", method = RequestMethod.GET)
+  public ModelAndView officesView( @RequestParam String officeCode, @RequestParam String view )
+  {
+    ModelAndView mv = null;
+    if( view != null && view.equalsIgnoreCase( "xml" ) )
+    {
+      mv = new ModelAndView( new MappingJackson2XmlView() );
+      Office office = this.officeService.get( officeCode );
+      mv.getModelMap().put( "office", office );
+    }
+    else if( view != null && view.equalsIgnoreCase( "json" ) )
+    {
+      mv = new ModelAndView( new MappingJackson2JsonView() );
+      Office office = this.officeService.get( officeCode );
+      mv.getModelMap().put( "office", office );
+    }
+    else
+    {
+      mv = new ModelAndView();
+      mv.setViewName( "redirect:/office" );
+    }
+
     return mv;
   }
 
@@ -148,11 +194,12 @@ public class OfficeController
     }
     catch( BusinessExcepcion e )
     {
-      mv.setViewName( "office_delete");
+      mv.setViewName( "office_delete" );
 
       mv.getModelMap().put( "error", true );
       mv.getModelMap().put( "errorMessage", e.getMessage() );
       mv.getModelMap().put( "errorCode", e.getCode() );
+      mv.getModelMap().put( "office", office );
     }
 
     return mv;

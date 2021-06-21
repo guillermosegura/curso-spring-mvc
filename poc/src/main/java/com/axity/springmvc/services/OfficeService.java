@@ -3,6 +3,7 @@ package com.axity.springmvc.services;
 import java.util.List;
 
 import com.axity.springmvc.to.Office;
+import com.axity.springmvc.to.PaginatedResponse;
 
 /**
  * Servicio de oficinas
@@ -17,6 +18,13 @@ public interface OfficeService
    * @return
    */
   List<Office> findAll();
+  
+  /**
+   * Busca todas las oficinas
+   * 
+   * @return
+   */
+  PaginatedResponse<Office> findAllPaginated(int page, int pageSize);
 
   /**
    * Busca las oficinas por territorio

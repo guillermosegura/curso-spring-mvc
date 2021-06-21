@@ -1,20 +1,28 @@
 package com.axity.springmvc.to;
 
+import java.io.Serializable;
+
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
+
 /**
  * Objeto de transferencia de Empleado
  * 
  * @author guillermo.segura@axity.com
  */
-public class Employee
+@JsonInclude(Include.NON_NULL)
+public class Employee implements Serializable
 {
-  private Long employeeNumber;
-  private String lastName;
-  private String firstName;
-  private String extension;
-  private String email;
-  private String officeCode;
-  private Long reportsTo;
-  private String jobTitle;
+
+  private static final long serialVersionUID = -226371449711827352L;
+  protected Long employeeNumber;
+  protected String lastName;
+  protected String firstName;
+  protected String extension;
+  protected String email;
+  protected String officeCode;
+  protected Long reportsTo;
+  protected String jobTitle;
 
   /**
    * @return the employeeNumber

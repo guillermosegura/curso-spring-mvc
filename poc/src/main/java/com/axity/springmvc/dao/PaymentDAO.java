@@ -9,58 +9,59 @@ import com.axity.springmvc.entity.PaymentDO;
  * 
  * @author guillermo.segura@axity.com
  */
-public interface PaymentDAO {
+public interface PaymentDAO
+{
 
-	/**
-	 * Busca todos los pagos asociados a un cliente
-	 * 
-	 * @param customerNumber
-	 * @return
-	 */
-	List<PaymentDO> findAllByCustomerNumber(Long customerNumber);
-	
-	/**
-	 * Busca los pago de un cliente paginado
-	 * @param customerNumber
-	 * @param maxResults
-	 * @param page
-	 * @param pageSize
-	 * @return
-	 */
-	List<PaymentDO> findAllByCustomerNumber(Long customerNumber, int maxResults, int page, int pageSize );
+  /**
+   * Busca todos los pagos asociados a un cliente
+   * 
+   * @param customerNumber
+   * @return
+   */
+  List<PaymentDO> findAllByCustomerNumber( Long customerNumber );
 
-	/**
-	 * Busca un pago asociado a un cliente y asu número de cheque
-	 * 
-	 * @param customerNumber
-	 * @param checkNumber
-	 * @return
-	 */
-	PaymentDO get(Long customerNumber, String checkNumber);
+  /**
+   * Busca los pago de un cliente paginado
+   * 
+   * @param customerNumber
+   * @param page
+   * @param pageSize
+   * @return
+   */
+  List<PaymentDO> findAllByCustomerNumber( Long customerNumber, int page, int pageSize );
 
-	/**
-	 * Crea un pago
-	 * 
-	 * @param payment
-	 * @return
-	 */
-	void create(PaymentDO payment);
+  /**
+   * Busca un pago asociado a un cliente y asu número de cheque
+   * 
+   * @param customerNumber
+   * @param checkNumber
+   * @return
+   */
+  PaymentDO get( Long customerNumber, String checkNumber );
 
-	/**
-	 * Edita un pago
-	 * 
-	 * @param payment
-	 * @return
-	 */
-	void edit(PaymentDO payment);
+  /**
+   * Crea un pago
+   * 
+   * @param payment
+   * @return
+   */
+  void create( PaymentDO payment );
 
-	/**
-	 * Elimina un pago
-	 * 
-	 * @param customerNumber
-	 * @param checkNumber
-	 * @return
-	 */
-	void delete(Long customerNumber, String checkNumber);
+  /**
+   * Edita un pago
+   * 
+   * @param payment
+   * @return
+   */
+  void edit( PaymentDO payment );
+
+  /**
+   * Elimina un pago
+   * 
+   * @param customerNumber
+   * @param checkNumber
+   * @return
+   */
+  void delete( Long customerNumber, String checkNumber );
 
 }

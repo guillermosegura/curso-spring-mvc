@@ -52,6 +52,29 @@ public class OfficeDAOTest
   }
 
   @Test
+  public void testFindAllPaged()
+  {
+    List<OfficeDO> offices = officeDAO.findAll( 0, 5 );
+
+    Assert.assertNotNull( offices );
+    Assert.assertFalse( offices.isEmpty() );
+
+    for( OfficeDO office : offices )
+    {
+      log( office );
+    }
+  }
+
+  @Test
+  public void testCount()
+  {
+    int n = officeDAO.countAll();
+
+    Assert.assertTrue( n > 0 );
+    LOG.info( "Registros: {}", n );
+  }
+
+  @Test
   public void testFindByTerritory()
   {
     List<OfficeDO> offices = officeDAO.findByTerritory( "NA" );

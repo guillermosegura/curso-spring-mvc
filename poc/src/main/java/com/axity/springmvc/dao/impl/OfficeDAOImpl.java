@@ -7,6 +7,7 @@ import javax.persistence.EntityManager;
 import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
+import javax.transaction.Transactional;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -22,9 +23,14 @@ import com.axity.springmvc.entity.OfficeDO;
  * @author guillermo.segura@axity.com
  */
 @Repository
+@Transactional
 public class OfficeDAOImpl implements OfficeDAO
 {
   private static final Logger LOG = LoggerFactory.getLogger( OfficeDAOImpl.class );
+
+  private static final int PAGE_SIZE = 20;
+
+  private static final int FIRST_PAGE = 0;
 
   @PersistenceContext
   private EntityManager em;
@@ -35,9 +41,27 @@ public class OfficeDAOImpl implements OfficeDAO
   @Override
   public List<OfficeDO> findAll()
   {
+    return findAll( FIRST_PAGE, PAGE_SIZE );
+  }
+
+  @Override
+  public List<OfficeDO> findAll( int page, int pageSize )
+  {
 
     TypedQuery<OfficeDO> query = em.createQuery( "SELECT o FROM OfficeDO as o ORDER BY o.officeCode", OfficeDO.class );
+    query.setMaxResults( pageSize );
+    query.setFirstResult( page * pageSize );
     return query.getResultList();
+  }
+
+  /**
+   * {@inheritDoc}
+   */
+  @Override
+  public int countAll()
+  {
+    TypedQuery<Number> query = em.createQuery( "SELECT COUNT(o) FROM OfficeDO as o", Number.class );
+    return query.getSingleResult().intValue();
   }
 
   /**
@@ -81,6 +105,7 @@ public class OfficeDAOImpl implements OfficeDAO
   public void create( OfficeDO office )
   {
     em.persist( office );
+    em.flush();
   }
 
   /**

@@ -22,12 +22,11 @@ public interface EmployeeDAO
   /**
    * Busca los empleados por paginacion
    * 
-   * @param maxResults
    * @param page
    * @param pageSize
    * @return
    */
-  List<EmployeeDO> findAll( int maxResults, int page, int pageSize );
+  List<EmployeeDO> findAll( int page, int pageSize );
 
   /**
    * Busca los empleados de una oficina en particular

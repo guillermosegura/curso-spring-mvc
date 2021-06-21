@@ -12,13 +12,13 @@
 
 <title>Spring MVC</title>
 </head>
-<body>
+<body class="px-1">
   <h3>Spring MVC</h3>
   
   <p>${hello}
   
   <ul>
-    <li><a href="./office">Oficinas</a>
+    <li><a href="<c:url value="/office" />">Oficinas</a>
   </ul>
 
 </body>

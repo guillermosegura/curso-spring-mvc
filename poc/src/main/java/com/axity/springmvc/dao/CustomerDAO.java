@@ -22,12 +22,11 @@ public interface CustomerDAO
   /**
    * Obtiene los clientes por paginacion
    * 
-   * @param maxResults
    * @param page
    * @param pageSize
    * @return
    */
-  List<CustomerDO> findAll( int maxResults, int page, int pageSize );
+  List<CustomerDO> findAll( int page, int pageSize );
 
   /**
    * Busca los clientes por su nombre

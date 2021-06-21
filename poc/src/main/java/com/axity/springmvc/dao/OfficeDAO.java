@@ -21,6 +21,22 @@ public interface OfficeDAO
   List<OfficeDO> findAll();
 
   /**
+   * Busca los registros de la tabla offices por paginacion
+   * 
+   * @param page
+   * @param pageSize
+   * @return
+   */
+  List<OfficeDO> findAll( int page, int pageSize );
+
+  /**
+   * Cuenta los registros
+   * 
+   * @return
+   */
+  int countAll();
+
+  /**
    * Busca los registros de la tabla offices por territorio
    * 
    * @param territory

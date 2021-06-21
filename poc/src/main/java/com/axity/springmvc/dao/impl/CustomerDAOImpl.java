@@ -27,8 +27,6 @@ public class CustomerDAOImpl implements CustomerDAO
 
   private static final int FIRST_PAGE = 0;
 
-  private static final int MAX_RESULTS_DEFAULT = 20;
-
   private static final Logger LOG = LoggerFactory.getLogger( CustomerDAOImpl.class );
 
   @PersistenceContext
@@ -37,15 +35,15 @@ public class CustomerDAOImpl implements CustomerDAO
   @Override
   public List<CustomerDO> findAll()
   {
-    return findAll(MAX_RESULTS_DEFAULT, FIRST_PAGE, PAGE_SIZE);
+    return findAll( FIRST_PAGE, PAGE_SIZE );
   }
 
   @Override
-  public List<CustomerDO> findAll( int maxResults, int page, int pageSize )
+  public List<CustomerDO> findAll( int page, int pageSize )
   {
     String query = "SELECT o FROM CustomerDO o ORDER BY o.customerName";
     TypedQuery<CustomerDO> typedQuery = em.createQuery( query, CustomerDO.class );
-    typedQuery.setMaxResults( maxResults );
+    typedQuery.setMaxResults( pageSize );
     typedQuery.setFirstResult( page * pageSize );
     return typedQuery.getResultList();
   }

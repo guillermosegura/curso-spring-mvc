@@ -1,17 +1,17 @@
 package com.axity.springmvc.config;
 
 import javax.sql.DataSource;
-import javax.transaction.TransactionManager;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver;
-import org.springframework.jdbc.datasource.DataSourceTransactionManager;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
 import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
+import org.springframework.orm.jpa.JpaTransactionManager;
 import org.springframework.orm.jpa.JpaVendorAdapter;
 import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
 import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
+import org.springframework.transaction.PlatformTransactionManager;
 
 /**
  * Configuración de la base de datos de H2
@@ -54,14 +54,15 @@ public class DatabaseConfig
 
   /**
    * Obtiene el transactionManager
+   * 
    * @return
    */
   @Bean
-  public DataSourceTransactionManager transactionManager()
+  public PlatformTransactionManager transactionManager()
   {
-    DataSourceTransactionManager txManager = new DataSourceTransactionManager();
-    txManager.setDataSource( dataSource() );
-    return txManager;
+    JpaTransactionManager transactionManager = new JpaTransactionManager();
+    transactionManager.setEntityManagerFactory( entityManagerFactory().getObject() );
+    return transactionManager;
   }
 
 }

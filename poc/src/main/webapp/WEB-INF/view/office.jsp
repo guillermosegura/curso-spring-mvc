@@ -11,11 +11,20 @@
   integrity="sha384-+0n0xVW2eSR5OomGNYDnhzAbDsOXxcvSN1TPprVMTNDbiYZCxYbOOl7+AMvyTG2x" crossorigin="anonymous">
 
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+<script src="<c:url value="/resources/js/office.js" />"></script>
 <title>Oficinas</title>
 </head>
-<body>
+<body class="px-1">
   <h3>Oficinas</h3>
+
+
+  <p>
+    <a href="<c:url value="/office_add" />">
+      <button type="button" class="btn btn-primary" aria-label="Left Align">
+        <span class="fa fa-plus" aria-hidden="true"></span> Agregar oficina
+      </button>
+    </a>
   <table class="table">
     <thead>
       <tr>
@@ -43,15 +52,15 @@
           <td>${office.country}</td>
           <td>${office.postalCode}</td>
           <td>${office.territory}</td>
-          <td>
-            <button type="button" class="btn btn-info">
-              <span class="fa fa-edit" aria-hidden="true"></span>
-            </button>
-
-            <button type="button" class="btn btn-danger">
-              <span class="fa fa-remove" aria-hidden="true"></span>
-            </button>
-          </td>
+          <td><a href="<c:url value="/office_edit?officeCode=${office.officeCode}" />">
+              <button id="editOffice${office.officeCode}" type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="Editar">
+                <span class="fa fa-edit" aria-hidden="true"></span>
+              </button>
+          </a> <a href="<c:url value="/office_delete?officeCode=${office.officeCode}" />">
+              <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="Eliminar">
+                <span class="fa fa-remove" aria-hidden="true"></span>
+              </button>
+          </a></td>
         </tr>
       </c:forEach>
     <tbody>
@@ -59,7 +68,7 @@
 
 
   <p>
-    <a href="./">
+    <a href="<c:url value="/" />">
       <button type="button" class="btn btn-primary" aria-label="Left Align">
         <span class="fa fa-undo" aria-hidden="true"></span> Regresar
       </button>

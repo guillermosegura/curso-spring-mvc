@@ -7,8 +7,6 @@ import javax.persistence.NoResultException;
 import javax.persistence.PersistenceContext;
 import javax.persistence.TypedQuery;
 
-import org.slf4j.Logger;
-import org.slf4j.LoggerFactory;
 import org.springframework.stereotype.Repository;
 
 import com.axity.springmvc.dao.EmployeeDAO;
@@ -22,13 +20,10 @@ import com.axity.springmvc.entity.EmployeeDO;
 @Repository
 public class EmployeeDAOImpl implements EmployeeDAO
 {
-  private static final Logger LOG = LoggerFactory.getLogger( EmployeeDAOImpl.class );
 
   private static final int PAGE_SIZE = 20;
 
   private static final int FIRST_PAGE = 0;
-
-  private static final int MAX_RESULTS_DEFAULT = 20;
 
   @PersistenceContext
   private EntityManager em;

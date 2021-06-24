@@ -18,6 +18,7 @@
   <!-- Services -->
   <bean name="officeService" class="com.axity.springmvc.services.impl.OfficeServiceImpl" />
   <bean name="employeeService" class="com.axity.springmvc.services.impl.EmployeeServiceImpl"/>
+  <bean name="customerService" class="com.axity.springmvc.services.impl.CustomerServiceImpl"/>
 
   <!-- DAOs -->
   <bean name="customerDAO" class="com.axity.springmvc.dao.impl.CustomerDAOImpl"/>

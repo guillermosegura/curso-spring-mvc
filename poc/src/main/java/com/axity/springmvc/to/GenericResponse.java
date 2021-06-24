@@ -11,7 +11,7 @@ public class GenericResponse implements Serializable
 
   private static final long serialVersionUID = 2129066540908564159L;
   private Header header;
-  private Object body;
+  private Serializable body;
   public Header getHeader()
   {
     return header;
@@ -27,7 +27,7 @@ public class GenericResponse implements Serializable
     return body;
   }
 
-  public void setBody( Object body )
+  public void setBody( Serializable body )
   {
     this.body = body;
   }

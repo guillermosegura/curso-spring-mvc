@@ -13,6 +13,7 @@ import org.springframework.test.context.ContextConfiguration;
 import org.springframework.test.context.junit4.SpringRunner;
 import org.springframework.transaction.annotation.Transactional;
 
+import com.axity.springmvc.dao.projection.CustomerSmall;
 import com.axity.springmvc.entity.CustomerDO;
 import com.axity.springmvc.entity.EmployeeDO;
 
@@ -61,6 +62,24 @@ public class CustomerDAOTest
   }
 
   @Test
+  public void testCountAll()
+  {
+    int n = this.customerDAO.countAll();
+    Assert.assertTrue( n > 0 );
+  }
+
+  @Test
+  public void testFindAllCustomers()
+  {
+    List<CustomerDO> customers = this.customerDAO.findAllCustomers();
+    customers.stream().forEach( c -> {
+      LOG.info( "{}-{}, contact: {},{}", c.getCustomerNumber(), c.getCustomerName(), c.getContactLastName(),
+        c.getContactFirstName() );
+    } );
+
+  }
+
+  @Test
   public void testFindBySalesRepEmployee()
   {
     List<CustomerDO> customers = this.customerDAO.findBySalesRepEmployee( 1370L );
@@ -80,11 +99,11 @@ public class CustomerDAOTest
 
   }
 
-  @Test(expected = RuntimeException.class)
+  @Test
   public void testGet_notFound()
   {
     CustomerDO customer = this.customerDAO.get( 99999L );
-    Assert.assertNotNull( customer );
+    Assert.assertNull( customer );
 
   }
 

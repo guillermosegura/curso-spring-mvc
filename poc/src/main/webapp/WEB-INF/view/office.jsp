@@ -34,6 +34,7 @@
       </button>
     </a>
   <table class="table">
+    <caption>Oficinas</caption>
     <thead>
       <tr>
         <th scope="col">C&oacute;digo</th>

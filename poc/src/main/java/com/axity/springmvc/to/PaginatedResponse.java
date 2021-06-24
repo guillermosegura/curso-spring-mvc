@@ -1,5 +1,6 @@
 package com.axity.springmvc.to;
 
+import java.io.Serializable;
 import java.util.List;
 
 /**
@@ -8,8 +9,10 @@ import java.util.List;
  * @author guillermo.segura@axity.com
  * @param <T>
  */
-public class PaginatedResponse<T>
+public class PaginatedResponse<T extends Serializable> implements Serializable
 {
+
+  private static final long serialVersionUID = -6578796470167164711L;
   private int page;
   private int pageSize;
   private int pages;

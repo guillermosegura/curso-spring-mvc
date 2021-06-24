@@ -5,6 +5,7 @@ import java.util.List;
 
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
+import javax.persistence.PersistenceContext;
 import javax.persistence.PersistenceException;
 import javax.persistence.PersistenceUnit;
 
@@ -36,6 +37,9 @@ public class OfficeDAOTest
 
   @PersistenceUnit
   private EntityManagerFactory emf;
+
+  @PersistenceContext
+  private EntityManager em;
 
   @Test
   public void testFindAll()
@@ -201,9 +205,6 @@ public class OfficeDAOTest
     OfficeDO office = this.officeDAO.get( "1" );
     office.setEmployees( null );
 
-    Field field = this.officeDAO.getClass().getDeclaredField( "em" );
-    field.setAccessible( true );
-    EntityManager em = (EntityManager) field.get( this.officeDAO );
     em.merge( office );
 
     EmployeeDO employee = employeeDAO.get( 1188L );
@@ -241,9 +242,6 @@ public class OfficeDAOTest
     OfficeDO office = this.officeDAO.get( "2" );
     office.setEmployees( null );
 
-    Field field = this.officeDAO.getClass().getDeclaredField( "em" );
-    field.setAccessible( true );
-    EntityManager em = (EntityManager) field.get( this.officeDAO );
     em.merge( office );
 
     EmployeeDO employee = employeeDAO.get( 1188L );

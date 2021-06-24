@@ -44,7 +44,7 @@ public class DatabaseConfig
   {
     LocalContainerEntityManagerFactoryBean em = new LocalContainerEntityManagerFactoryBean();
     em.setDataSource( dataSource() );
-    em.setPackagesToScan( new String[] { "com.axity.springmvc.entity" } );
+    em.setPackagesToScan( "com.axity.springmvc.entity" );
 
     JpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
     em.setJpaVendorAdapter( vendorAdapter );

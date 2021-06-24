@@ -16,6 +16,8 @@ import org.springframework.stereotype.Repository;
 import com.axity.springmvc.dao.OfficeDAO;
 import com.axity.springmvc.entity.EmployeeDO;
 import com.axity.springmvc.entity.OfficeDO;
+import com.axity.springmvc.exception.BusinessExcepcion;
+import com.axity.springmvc.exception.BusinessExcepcionCode;
 
 /**
  * Implementación del dao {@link mx.com.axity.poc.dao.OfficeDAO}
@@ -26,6 +28,20 @@ import com.axity.springmvc.entity.OfficeDO;
 @Transactional
 public class OfficeDAOImpl implements OfficeDAO
 {
+  private static final String ERROR_EMPLOYEE_NOT_ASSIGNED = "El empleado no está asociado a la oficina";
+
+  private static final String ERROR_EMPLOYEE_ALREADY_ASSIGNED = "El empleado ya está asociado a la oficina";
+
+  private static final String ERROR_OFFICE_DOESNT_EXISTS = "La oficina no existe";
+
+  private static final String QUERY_FIND_BY_OFFICE_CODE = "from OfficeDO as o WHERE o.officeCode = :officeCode";
+
+  private static final String QUERY_FIND_BY_TERRITORY = "from OfficeDO as o WHERE o.territory = :territory ORDER BY o.officeCode";
+
+  private static final String QUERY_COUNT_ALL = "SELECT COUNT(o) FROM OfficeDO as o";
+
+  private static final String QUERY_FIND_ALL = "SELECT o FROM OfficeDO as o ORDER BY o.officeCode";
+
   private static final Logger LOG = LoggerFactory.getLogger( OfficeDAOImpl.class );
 
   private static final int PAGE_SIZE = 20;
@@ -48,7 +64,7 @@ public class OfficeDAOImpl implements OfficeDAO
   public List<OfficeDO> findAll( int page, int pageSize )
   {
 
-    TypedQuery<OfficeDO> query = em.createQuery( "SELECT o FROM OfficeDO as o ORDER BY o.officeCode", OfficeDO.class );
+    TypedQuery<OfficeDO> query = em.createQuery( QUERY_FIND_ALL, OfficeDO.class );
     query.setMaxResults( pageSize );
     query.setFirstResult( page * pageSize );
     return query.getResultList();
@@ -60,7 +76,7 @@ public class OfficeDAOImpl implements OfficeDAO
   @Override
   public int countAll()
   {
-    TypedQuery<Number> query = em.createQuery( "SELECT COUNT(o) FROM OfficeDO as o", Number.class );
+    TypedQuery<Number> query = em.createQuery( QUERY_COUNT_ALL, Number.class );
     return query.getSingleResult().intValue();
   }
 
@@ -71,7 +87,7 @@ public class OfficeDAOImpl implements OfficeDAO
   public List<OfficeDO> findByTerritory( String territory )
   {
     TypedQuery<OfficeDO> query = em
-        .createQuery( "from OfficeDO as o WHERE o.territory = :territory ORDER BY o.officeCode", OfficeDO.class );
+        .createQuery( QUERY_FIND_BY_TERRITORY, OfficeDO.class );
     query.setParameter( "territory", territory );
     return query.getResultList();
   }
@@ -83,7 +99,7 @@ public class OfficeDAOImpl implements OfficeDAO
   public OfficeDO get( String officeCode )
   {
 
-    TypedQuery<OfficeDO> query = em.createQuery( "from OfficeDO as o WHERE o.officeCode = :officeCode",
+    TypedQuery<OfficeDO> query = em.createQuery( QUERY_FIND_BY_OFFICE_CODE,
       OfficeDO.class );
     query.setParameter( "officeCode", officeCode );
     OfficeDO office;
@@ -158,8 +174,10 @@ public class OfficeDAOImpl implements OfficeDAO
       if( entity.getEmployees().contains( employee ) )
       {
         // Lanzar excepcion de negocio
-        LOG.warn( "El empleado ya está asociado a la oficina" );
-        throw new RuntimeException( "El empleado ya está asociado a la oficina" );
+        LOG.warn( ERROR_EMPLOYEE_ALREADY_ASSIGNED );
+        BusinessExcepcion be = new BusinessExcepcion(ERROR_EMPLOYEE_ALREADY_ASSIGNED);
+        be.setCode( BusinessExcepcionCode.INVALID_DATA );
+        throw be;
       }
       else
       {
@@ -170,9 +188,11 @@ public class OfficeDAOImpl implements OfficeDAO
     }
     else
     {
-      // Lanzar excepcion de negocio
-      LOG.warn( "La oficina no existe" );
-      throw new RuntimeException( "La oficina no existe" );
+      
+      LOG.warn( ERROR_OFFICE_DOESNT_EXISTS );
+      BusinessExcepcion be = new BusinessExcepcion(ERROR_OFFICE_DOESNT_EXISTS);
+      be.setCode( BusinessExcepcionCode.DB_INTEGRITY );
+      throw be;
     }
 
   }
@@ -194,16 +214,18 @@ public class OfficeDAOImpl implements OfficeDAO
       else
       {
         // Lanzar excepcion de negocio
-        LOG.warn( "El empleado no está asociado a la oficina" );
-        throw new RuntimeException( "El empleado no está asociado a la oficina" );
+        LOG.warn( ERROR_EMPLOYEE_NOT_ASSIGNED );
+        BusinessExcepcion be = new BusinessExcepcion(ERROR_EMPLOYEE_NOT_ASSIGNED);
+        be.setCode( BusinessExcepcionCode.INVALID_DATA );
+        throw be;
       }
 
     }
     else
     {
       // Lanzar excepcion de negocio
-      LOG.warn( "La oficina no existe" );
-      throw new RuntimeException( "La oficina no existe" );
+      LOG.warn( ERROR_OFFICE_DOESNT_EXISTS );
+      throw new RuntimeException( ERROR_OFFICE_DOESNT_EXISTS );
     }
 
   }

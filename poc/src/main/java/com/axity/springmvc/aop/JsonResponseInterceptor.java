@@ -1,5 +1,7 @@
 package com.axity.springmvc.aop;
 
+import java.io.Serializable;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -38,7 +40,7 @@ public class JsonResponseInterceptor implements HandlerInterceptor
             || responseEntity.getStatusCode().equals( HttpStatus.CREATED ) )
         {
           GenericResponse genericResponse = new GenericResponse();
-          genericResponse.setBody( responseEntity.getBody() );
+          genericResponse.setBody( (Serializable) responseEntity.getBody() );
           Header header = new Header();
           header.setMessage( "OK" );
           header.setStatus( "000" );
@@ -48,7 +50,7 @@ public class JsonResponseInterceptor implements HandlerInterceptor
         else
         {
           GenericResponse genericResponse = new GenericResponse();
-          genericResponse.setBody( responseEntity.getBody() );
+          genericResponse.setBody( (Serializable) responseEntity.getBody() );
           result = new ResponseEntity<>( genericResponse, responseEntity.getStatusCode() );
         }
       }

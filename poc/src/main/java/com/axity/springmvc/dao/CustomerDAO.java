@@ -2,6 +2,7 @@ package com.axity.springmvc.dao;
 
 import java.util.List;
 
+import com.axity.springmvc.dao.projection.CustomerSmall;
 import com.axity.springmvc.entity.CustomerDO;
 
 /**
@@ -27,6 +28,15 @@ public interface CustomerDAO
    * @return
    */
   List<CustomerDO> findAll( int page, int pageSize );
+
+  /**
+   * Regresa la cantidad de registros
+   * 
+   * @return
+   */
+  int countAll();
+  
+  List<CustomerDO> findAllCustomers();
 
   /**
    * Busca los clientes por su nombre

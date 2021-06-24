@@ -45,7 +45,7 @@ public class PaymentDAOImpl implements PaymentDAO
             + " ORDER BY p.paymentDate, p.id.checkNumber ",
           PaymentDO.class );
     query.setParameter( "customerNumber", customerNumber );
-    query.setMaxResults( page );
+    query.setMaxResults( pageSize );
     query.setFirstResult( page * pageSize );
     return query.getResultList();
   }

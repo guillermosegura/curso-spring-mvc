@@ -225,7 +225,9 @@ public class OfficeDAOImpl implements OfficeDAO
     {
       // Lanzar excepcion de negocio
       LOG.warn( ERROR_OFFICE_DOESNT_EXISTS );
-      throw new RuntimeException( ERROR_OFFICE_DOESNT_EXISTS );
+      BusinessExcepcion be = new BusinessExcepcion(ERROR_OFFICE_DOESNT_EXISTS);
+      be.setCode( BusinessExcepcionCode.INVALID_DATA );
+      throw be;
     }
 
   }

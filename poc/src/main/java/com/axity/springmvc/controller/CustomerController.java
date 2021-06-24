@@ -62,7 +62,7 @@ public class CustomerController
   public ResponseEntity<Serializable> getCustomers()
   {
     List<Customer> customers = customerService.findAllCustomers();
-    return new ResponseEntity<Serializable>( (Serializable) customers, HttpStatus.OK );
+    return new ResponseEntity<>( (Serializable) customers, HttpStatus.OK );
   }
 
   /**

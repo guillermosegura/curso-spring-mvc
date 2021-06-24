@@ -45,8 +45,7 @@ public class OfficeRestController
       @RequestParam(required = false, defaultValue = "20") int pageSize )
   {
     PaginatedResponse<Office> offices = officeService.findAllPaginated( page, pageSize );
-    ResponseEntity<Serializable> response = new ResponseEntity<>( offices, HttpStatus.OK );
-    return response;
+    return new ResponseEntity<>( offices, HttpStatus.OK );
   }
 
   @GetMapping(path = "/api/office/{officeCode}", produces = MediaType.APPLICATION_JSON_VALUE)

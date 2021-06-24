@@ -15,6 +15,9 @@
 
   <context:annotation-config />
 
+  <!-- Controller -->
+  <bean name="customerController" class="com.axity.springmvc.controller.CustomerController"/>
+
   <!-- Services -->
   <bean name="officeService" class="com.axity.springmvc.services.impl.OfficeServiceImpl" />
   <bean name="employeeService" class="com.axity.springmvc.services.impl.EmployeeServiceImpl"/>

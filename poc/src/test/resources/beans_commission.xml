@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+  xmlns:context="http://www.springframework.org/schema/context" xmlns:aop="http://www.springframework.org/schema/aop"
+  xmlns:jdbc="http://www.springframework.org/schema/jdbc" xmlns:tx="http://www.springframework.org/schema/tx"
+  xsi:schemaLocation="http://www.springframework.org/schema/beans
+        https://www.springframework.org/schema/beans/spring-beans.xsd
+        http://www.springframework.org/schema/context
+        https://www.springframework.org/schema/context/spring-context.xsd
+        http://www.springframework.org/schema/aop 
+        https://www.springframework.org/schema/aop/spring-aop.xsd
+        http://www.springframework.org/schema/jdbc
+        http://www.springframework.org/schema/jdbc/spring-jdbc.xsd
+        http://www.springframework.org/schema/tx
+        https://www.springframework.org/schema/tx/spring-tx.xsd">
+
+  <context:annotation-config />
+
+  <!-- Controller -->
+  <bean name="customerController" class="com.axity.springmvc.controller.CustomerController" />
+
+  <!-- Services -->
+  <bean name="officeService" class="org.mockito.Mockito" factory-method="mock">
+    <constructor-arg value="com.axity.springmvc.services.OfficeService" />
+  </bean>
+
+  <bean name="employeeService" class="org.mockito.Mockito" factory-method="mock">
+    <constructor-arg value="com.axity.springmvc.services.EmployeeService" />
+  </bean>
+
+  <bean name="customerService" class="com.axity.springmvc.services.impl.CustomerServiceImpl" />
+
+  <!-- DAOs -->
+  <bean name="customerDAO" class="com.axity.springmvc.dao.impl.CustomerDAOImpl" />
+  <bean name="officeDAO" class="com.axity.springmvc.dao.impl.OfficeDAOImpl" />
+  <bean name="employeeDAO" class="com.axity.springmvc.dao.impl.EmployeeDAOImpl" />
+  <bean name="paymentDAO" class="com.axity.springmvc.dao.impl.PaymentDAOImpl" />
+
+  <jdbc:embedded-database id="dataSource" type="H2">
+    <jdbc:script location="classpath:schema.sql" />
+    <jdbc:script location="classpath:data.sql" />
+  </jdbc:embedded-database>
+
+
+  <tx:annotation-driven transaction-manager="txManager" />
+
+  <bean id="txManager" class="org.springframework.orm.jpa.JpaTransactionManager">
+    <property name="entityManagerFactory" ref="entityManagerFactory" />
+  </bean>
+
+
+  <tx:advice id="txAdvice" transaction-manager="txManager">
+    <tx:attributes>
+      <tx:method name="get*" read-only="true" />
+      <tx:method name="find*" read-only="true" />
+      <tx:method name="*" />
+    </tx:attributes>
+  </tx:advice>
+
+  <aop:config>
+    <aop:pointcut id="serviceOperation" expression="execution(* com.axity.springmvc.services.*.*(..))" />
+    <aop:advisor advice-ref="txAdvice" pointcut-ref="serviceOperation" />
+  </aop:config>
+
+
+
+
+  <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">
+    <property name="dataSource" ref="dataSource" />
+    <property name="packagesToScan" value="com.axity.springmvc.entity" />
+    <property name="jpaVendorAdapter">
+      <bean class="org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter" />
+    </property>
+    <property name="loadTimeWeaver">
+      <bean class="org.springframework.instrument.classloading.InstrumentationLoadTimeWeaver" />
+    </property>
+  </bean>
+
+
+
+
+</beans>

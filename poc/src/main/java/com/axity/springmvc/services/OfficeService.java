@@ -1,5 +1,6 @@
 package com.axity.springmvc.services;
 
+import java.math.BigDecimal;
 import java.util.List;
 
 import com.axity.springmvc.to.Office;
@@ -18,13 +19,13 @@ public interface OfficeService
    * @return
    */
   List<Office> findAll();
-  
+
   /**
    * Busca todas las oficinas
    * 
    * @return
    */
-  PaginatedResponse<Office> findAllPaginated(int page, int pageSize);
+  PaginatedResponse<Office> findAllPaginated( int page, int pageSize );
 
   /**
    * Busca las oficinas por territorio
@@ -62,4 +63,12 @@ public interface OfficeService
    * @param officeCode
    */
   void delete( String officeCode );
+
+  /**
+   * Obtiene el porcentaje de comision
+   * 
+   * @param officeCode
+   * @return
+   */
+  BigDecimal getCommission( String officeCode );
 }

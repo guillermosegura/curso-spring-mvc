@@ -1,6 +1,9 @@
 package com.axity.springmvc.services;
 
+import static org.junit.Assert.assertNotNull;
+
 import java.math.BigDecimal;
+import java.time.LocalDate;
 import java.util.List;
 
 import org.junit.Assert;
@@ -16,12 +19,14 @@ import org.springframework.transaction.annotation.Transactional;
 
 import com.axity.springmvc.dao.EmployeeDAO;
 import com.axity.springmvc.dao.OfficeDAO;
+import com.axity.springmvc.dao.PaymentDAO;
 import com.axity.springmvc.entity.EmployeeDO;
-import com.axity.springmvc.entity.OfficeDO;
+import com.axity.springmvc.entity.PaymentDO;
 import com.axity.springmvc.exception.BusinessExcepcion;
 import com.axity.springmvc.to.Customer;
 import com.axity.springmvc.to.Employee;
 import com.axity.springmvc.to.PaginatedResponse;
+import com.axity.springmvc.to.Payment;
 import com.fasterxml.jackson.core.JsonProcessingException;
 import com.fasterxml.jackson.core.PrettyPrinter;
 import com.fasterxml.jackson.core.util.DefaultPrettyPrinter;
@@ -43,6 +48,7 @@ public class CustomerServiceTest
 
   @Autowired
   private EmployeeDAO employeeDAO;
+
 
   @Before
   public void setUp() throws Exception
@@ -552,5 +558,6 @@ public class CustomerServiceTest
   {
     this.customerService.delete( 999999999999L );
   }
+
 
 }

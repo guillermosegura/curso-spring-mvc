@@ -12,6 +12,8 @@ import org.springframework.stereotype.Service;
 import com.axity.springmvc.dao.EmployeeDAO;
 import com.axity.springmvc.entity.EmployeeDO;
 import com.axity.springmvc.services.EmployeeService;
+import com.axity.springmvc.services.OfficeService;
+import com.axity.springmvc.to.Commission;
 import com.axity.springmvc.to.Employee;
 import com.axity.springmvc.to.EmployeeReport;
 import com.axity.springmvc.to.Office;
@@ -23,6 +25,9 @@ public class EmployeeServiceImpl implements EmployeeService
 
   @Autowired
   private EmployeeDAO employeeDAO;
+
+  @Autowired
+  private OfficeService officeService;
 
   @Override
   public List<EmployeeReport> findAllEmployees()
@@ -63,6 +68,12 @@ public class EmployeeServiceImpl implements EmployeeService
     office.setCountry( e.getOffice().getCountry() );
     employeeReport.setOffice( office );
     return employeeReport;
+  }
+
+  @Override
+  public Long saveCommision( Commission commission )
+  {
+    return null;
   }
 
 }

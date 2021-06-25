@@ -2,8 +2,10 @@ package com.axity.springmvc.services;
 
 import java.util.List;
 
+import com.axity.springmvc.to.Commission;
 import com.axity.springmvc.to.Customer;
 import com.axity.springmvc.to.PaginatedResponse;
+import com.axity.springmvc.to.Payment;
 
 /**
  * Interface para la manipulación de clientes
@@ -58,4 +60,10 @@ public interface CustomerService
    */
   void delete( Long customerNumber );
 
+  /**
+   * Asigna el pago a un cliente
+   * 
+   * @param payment
+   */
+  Commission assignPayment( Payment payment );
 }

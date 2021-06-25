@@ -1,5 +1,6 @@
 package com.axity.springmvc.services.impl;
 
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -178,4 +179,13 @@ public class OfficeServiceImpl implements OfficeService
     }
     return entity;
   }
+
+  @Override
+  public BigDecimal getCommission( String officeCode )
+  {
+    return null;
+  }
+  
+  
+  
 }
